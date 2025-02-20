@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>SEWA</title>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">SEWA</a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="enrollment.html">Enrollment</a>
+            <a href="about.html">About Us</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="#" id="profile-icon" class="profile-icon"><i class="fas fa-user"></i></a>
+        </nav>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <!-- Main Section -->
+    <section class="home">
+        <div class="home-content">
+            <h1>Welcome to <span>SEWA</span></h1>
+            <p>Your gateway to a seamless registration experience at BrightStart Academy.</p>
+            <a href="#" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Why Choose SEWA Section -->
+    <section class="why-choose">
+        <h2>Why Choose SEWA?</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fa-solid fa-user"></i>
+                <h4>Simple Account Management</h4>
+                <p>Create and manage your profile effortlessly.</p>
+            </div>
+            <div class="feature">
+                <i class="fa-solid fa-book"></i>
+                <h4>Comprehensive Course Information</h4>
+                <p>Access detailed descriptions and updates for all courses.</p>
+            </div>
+            <div class="feature">
+                <i class="fa-solid fa-check"></i>
+                <h4>Streamlined Registration</h4>
+                <p>Register for courses with just a few clicks.</p>
+            </div>
+            <div class="feature">
+                <i class="fa-solid fa-headset"></i>
+                <h4>Dedicated Support</h4>
+                <p>Contact us anytime for assistance or inquiries.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Us Section -->
+    <section class="join-us">
+        <h2>Join Us Today!</h2>
+        <p>Take the first step towards an enriched learning experience.</p>
+        <a href="#" class="btn">Create an Account</a>
+    </section>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <div class="fab" id="scrollToTop">
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <a href="contactus.html" class="fab">
+            <i class="fa-solid fa-envelope"></i>
+        </a>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="switchToSignup()">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signup-modal')">&times;</span>
+            <h2>Sign Up</h2>
+            <input type="text" id="signup-name" placeholder="Full Name">
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="tel" id="signup-phone" placeholder="Phone">
+            <input type="password" id="signup-password" placeholder="Password">
+            <button onclick="signup()">Sign Up</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Toggle header background on scroll
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle menu visibility on mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+
+        menuToggle.addEventListener('click', function () {
+            nav.classList.toggle('active');
+        });
+
+        $(document).ready(function () {
+            $("#profile-icon").click(function () {
+                $("#login-modal").show(); // Display login modal on profile icon click
+            });
+        });
+
+        function login() {
+            const email = $("#login-email").val();
+            const password = $("#login-password").val();
+
+            fetch("login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    sessionStorage.setItem('loggedIn', 'true');
+                    location.href = 'profile-page.html'; // Redirect to profile page after successful login
+                } else {
+                    alert(data);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function signup() {
+            $.post("signup.php", {
+                full_name: $("#signup-name").val(),
+                email: $("#signup-email").val(),
+                phone: $("#signup-phone").val(),
+                password: $("#signup-password").val()
+            }, function (response) {
+                if (response === "success") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
+            });
+        }
+
+        function closeModal(id) {
+            $("#" + id).hide();
+        }
+
+        function switchToSignup() {
+            closeModal("login-modal");
+            $("#signup-modal").show();
+        }
+
+        function switchToLogin() {
+            closeModal("signup-modal");
+            $("#login-modal").show();
+        }
+
+        $(document).ready(function () {
+            $("a[href='#']").click(function (event) {
+                event.preventDefault(); // Prevent the default link behavior
+
+                const courseDetails = {
+                    name: "Web Development",
+                    duration: "6 months",
+                    fees: "$600",
+                    description: "Learn the fundamentals of web development including HTML, CSS, JavaScript, and more."
+                };
+
+                $("#course-name").text(courseDetails.name);
+                $("#course-duration").text(courseDetails.duration);
+                $("#course-fees").text(courseDetails.fees);
+                $("#course-description").text(courseDetails.description);
+
+                $("#courses-tab").show();
+
+                $("#enroll-btn").click(function () {
+                    alert("You have successfully enrolled in the course: " + courseDetails.name);
+                });
+            });
+        });
+
+        // Scroll to top functionality
+        document.getElementById("scrollToTop").addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+
+</body>
+
+</html>

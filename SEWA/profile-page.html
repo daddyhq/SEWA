@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>SEWA</title>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">SEWA</a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="enrollment.html">Enrollment</a>
+            <a href="about.html">About Us</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="#" id="profile-icon" class="profile-icon"><i class="fas fa-user"></i></a>
+        </nav>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('personal-info')">Personal Information</button>
+            <button class="tab-button" onclick="showTab('enrollment-app')">Enrollment App</button>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <!-- Personal Information Tab -->
+        <div id="personal-info" class="tab-content active">
+            <h2>Update Personal Information</h2>
+            <form>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                <button type="submit">Update Information</button>
+            </form>
+        </div>
+
+        <!-- Enrollment App Tab -->
+        <div id="enrollment-app" class="tab-content">
+            <h2>Enrollment Application</h2>
+
+            <!-- Enrolled Courses Section -->
+            <div class="enrolled-courses">
+                <h3>Your Enrolled Courses</h3>
+                <div class="course-cards">
+                    <div class="course-card">
+                        <h4>Course 1</h4>
+                        <p>Start Date: 2025-02-15</p>
+                        <button class="unenroll-btn">Unenroll</button>
+                    </div>
+                    <div class="course-card">
+                        <h4>Course 2</h4>
+                        <p>Start Date: 2025-03-10</p>
+                        <button class="unenroll-btn">Unenroll</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Enrollment Form -->
+            <div class="new-enrollment">
+                <h3>New Enrollment</h3>
+                <form>
+                    <label for="course">Select Course:</label>
+                    <select id="course" name="course">
+                        <option value="course1">Course 1</option>
+                        <option value="course2">Course 2</option>
+                        <option value="course3">Course 3</option>
+                    </select>
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date">
+                    <button type="submit">Enroll</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function showTab(tabId) {
+            // Hide all tab content
+            $(".tab-content").removeClass("active");
+            // Show selected tab content
+            $("#" + tabId).addClass("active");
+
+            // Change active tab button style
+            $(".tab-button").removeClass("active");
+            $("button:contains('" + tabId.replace('-', ' ') + "')").addClass("active");
+        }
+    </script>
+</body>
+
+</html>
